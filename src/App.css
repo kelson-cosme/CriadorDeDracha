@@ -1,0 +1,518 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
+
+:root {
+  /* Dimensions for screen mapping: 1cm = 40px */
+  /* Width: 6cm -> 240px */
+  /* Height: 12cm -> 480px */
+  --badge-width: 240px;
+  --badge-height: 480px;
+  --color-red: #ea1b25;
+  --color-black: #000000;
+  --color-white: #ffffff;
+  --stripe-size: 20px;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: #f3f4f6;
+  color: #1a1a1a;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* Ensure all elements keep colors when printing directly */
+* {
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* Layout */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.header {
+  background-color: #172554;
+  color: white;
+  padding: 1rem 2rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.main-content {
+  display: flex;
+  flex: 1;
+  padding: 2rem;
+  gap: 2rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Form Styles */
+.form-panel {
+  flex: 1;
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #374151;
+}
+
+.form-group input[type="text"],
+.form-group input[type="tel"] {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: inherit;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="tel"]:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.file-input-wrapper {
+  position: relative;
+  border: 2px dashed #d1d5db;
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  background-color: #f9fafb;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.file-input-wrapper:hover {
+  border-color: #2563eb;
+  background-color: #eff6ff;
+}
+
+.file-input-wrapper input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.file-input-text {
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.action-buttons {
+  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn-primary {
+  background-color: #2563eb;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #1d4ed8;
+}
+
+.btn-secondary {
+  background-color: #4b5563;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #374151;
+}
+
+/* Badge Preview Panel */
+.preview-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  overflow-y: auto;
+}
+
+.badge-wrapper {
+  background: white;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+  overflow: auto;
+  max-width: 100%;
+}
+
+@media print {
+  body {
+    background-color: white;
+  }
+
+  .header,
+  .form-panel {
+    display: none !important;
+  }
+
+  .main-content {
+    padding: 0;
+    margin: 0;
+  }
+
+  .preview-panel {
+    width: 100%;
+    align-items: flex-start;
+  }
+
+  .badge-wrapper {
+    box-shadow: none;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .print-page-container {
+    padding: 0;
+  }
+}
+
+/* --- PRINT GRID LAYOUT --- */
+.print-page-container {
+  background-color: white;
+  position: relative;
+  padding: 20px;
+  /* Padding inside the page */
+  display: inline-block;
+}
+
+.badges-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 0;
+  /* Keep gap 0 and use padding in cells if needed, to align borders easily */
+  position: relative;
+}
+
+.grid-cell {
+  position: relative;
+  padding: 30px;
+  /* Space between cuts and badge */
+}
+
+/* Dashed lines for cutting */
+.grid-cell::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 2px dashed #000;
+  pointer-events: none;
+}
+
+/* To avoid double borders on the inside, we adjust borders */
+.grid-cell {
+  border-right: 2px dashed #000;
+  border-bottom: 2px dashed #000;
+}
+
+.badges-grid .grid-cell:nth-child(even) {
+  border-right: none;
+}
+
+.badges-grid .grid-cell:nth-child(n+3) {
+  border-bottom: none;
+}
+
+/* Left and top borders on the container */
+.badges-grid {
+  border-left: 2px dashed #000;
+  border-top: 2px dashed #000;
+}
+
+/* Extending cut lines slightly outside the grid like in the image */
+.badges-grid::after {
+  content: '';
+  position: absolute;
+  top: -20px;
+  bottom: -20px;
+  left: 50%;
+  border-left: 2px dashed #000;
+  z-index: 1;
+}
+
+.badges-grid::before {
+  content: '';
+  position: absolute;
+  left: -20px;
+  right: -20px;
+  top: 50%;
+  border-top: 2px dashed #000;
+  z-index: 1;
+}
+
+/* Override absolute positioning z-index so it doesn't cover badges */
+.badge-card {
+  z-index: 2;
+}
+
+/* --- BADGE THEME --- */
+
+.badge-card {
+  width: var(--badge-width);
+  height: var(--badge-height);
+  position: relative;
+  box-sizing: border-box;
+  /* Top corners cut */
+  clip-path: polygon(15% 0, 85% 0, 100% 10%, 100% 100%, 0 100%, 0 10%);
+
+  /* Diagonal stripes background with better support than repeating-linear-gradient */
+  background-color: var(--color-white);
+  background-image: linear-gradient(-45deg,
+      var(--color-red) 25%,
+      transparent 25%,
+      transparent 50%,
+      var(--color-red) 50%,
+      var(--color-red) 75%,
+      transparent 75%,
+      transparent);
+  background-size: 56px 56px;
+  /* 40 * sqrt(2) */
+
+  /* A thin black inner border to frame everything - use an inset shadow or outline wrapper */
+  border: 1px solid #ddd;
+  /* fallback */
+
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 8px;
+}
+
+/* Inner wrapper to give the black border since clip-path cuts off normal borders easily? 
+   Actually, the image doesn't show an outer border, just the cuts. */
+
+.badge-header-black {
+  background-color: var(--color-black);
+  width: 100%;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 40px;
+  /* push down slightly past the cut */
+}
+
+.perigo-pill {
+  background-color: var(--color-red);
+  color: var(--color-white);
+  border: 3px solid var(--color-white);
+  border-radius: 50px;
+  padding: 4px 18px;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  box-shadow: 0 0 0 2px var(--color-black);
+  /* Thin black border outside the white border */
+}
+
+.nao-ligue-box {
+  background-color: var(--color-white);
+  border: 2px solid var(--color-black);
+  border-radius: 12px;
+  text-align: center;
+  padding: 8px 4px;
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--color-black);
+  margin: 0 5px;
+}
+
+.front-main-content {
+  border-radius: 4px;
+  /* Slight rounding or square */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin: 0 5px 15px 5px;
+  /* bottom margin to reveal stripes */
+}
+
+.front-top-section {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.text-estou-trabalhando {
+  background-color: var(--color-white);
+
+  flex: 1;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--color-black);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  width: 75px;
+  height: 100px;
+  padding: 5px;
+  margin: 5px;
+  border: 1px solid var(--color-black);
+}
+
+
+.photo-container {
+  width: 75px;
+  height: 100px;
+  border: 2px solid var(--color-black);
+  background-color: #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin: 5px;
+}
+
+.photo-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.front-bottom-info {
+  margin-top: auto;
+  padding-top: 10px;
+  font-size: 12px;
+  color: var(--color-black);
+  line-height: 1.4;
+  border-top: 2px solid var(--color-white);
+  background-color: var(--color-white);
+  padding: 5px;
+  border: 2px solid var(--color-black);
+
+
+  /* No separator in picture actually */
+}
+
+.info-line {
+  display: flex;
+  margin-bottom: 2px;
+  font-size: 10px;
+}
+
+.info-line strong {
+  margin-right: 4px;
+}
+
+.info-line-center {
+  text-align: center;
+  font-weight: 700;
+  margin-top: 4px;
+  font-size: 9px;
+}
+
+/* Back Badge specific */
+
+.back-main-content {
+  background-color: var(--color-white);
+  border: 2px solid var(--color-black);
+  border-radius: 12px;
+  margin: 0 8px;
+  padding: 10px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.3;
+  color: var(--color-black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 150px;
+}
+
+.back-logo-container {
+  margin: auto auto 15px auto;
+  background-color: var(--color-white);
+  border: 2px solid var(--color-black);
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+}
+
+.back-logo-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.logo-icon {
+  width: 40px;
+  height: 40px;
+  background-color: #10b981;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.logo-text {
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: 2px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .main-content {
+    flex-direction: column;
+  }
+}
