@@ -97,7 +97,7 @@ function App() {
       const yOffset = (pdfHeight - finalHeight) / 2;
 
       pdf.addImage(imgData, 'JPEG', xOffset, yOffset, finalWidth, finalHeight);
-      pdf.save(`cracha_loto_${name.replace(/\s+/g, '_').toLowerCase()}.pdf`);
+      pdf.save(`cracha_loto_${name1.replace(/\s+/g, '_').toLowerCase()}.pdf`);
     } catch (error) {
       console.error('Failed to generate PDF', error);
       alert('Houve um erro ao gerar o PDF. Verifique o console.');
