@@ -7,20 +7,37 @@ import defaultLogo from './assets/altma_logo.png';
 import metaLogo from './assets/meta_logo.png';
 
 function App() {
-  const [name, setName] = useState('Oseias Oliveira de Souza');
-  const [role, setRole] = useState('Soldador III');
-  const [phone, setPhone] = useState('(65) 99688-7206');
-  const [photoUrl, setPhotoUrl] = useState<string | null>(null);
+  const [name1, setName1] = useState('Oseias Oliveira de Souza');
+  const [role1, setRole1] = useState('Soldador III');
+  const [phone1, setPhone1] = useState('(65) 99688-7206');
+  const [photoUrl1, setPhotoUrl1] = useState<string | null>(null);
+
+  const [name2, setName2] = useState('');
+  const [role2, setRole2] = useState('');
+  const [phone2, setPhone2] = useState('');
+  const [photoUrl2, setPhotoUrl2] = useState<string | null>(null);
+
   const [logoUrl, setLogoUrl] = useState<string | null>(defaultLogo);
 
   const badgeRef = useRef<HTMLDivElement>(null);
 
-  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePhotoUpload1 = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       const reader = new FileReader();
       reader.onloadend = () => {
-        setPhotoUrl(reader.result as string);
+        setPhotoUrl1(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handlePhotoUpload2 = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPhotoUrl2(reader.result as string);
       };
       reader.readAsDataURL(file);
     }
@@ -96,48 +113,95 @@ function App() {
       <main className="main-content">
         {/* FORM PANEL */}
         <section className="form-panel">
-          <h2>Dados do Funcionário</h2>
 
-          <div className="form-group">
-            <label>Nome Completo</label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Ex: João da Silva"
-            />
+          {/* BADGE 1 FORM */}
+          <div style={{ padding: '15px', backgroundColor: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: '8px', marginBottom: '20px' }}>
+            <h2 style={{ marginTop: 0, marginBottom: '15px', fontSize: '1.25rem' }}>Crachá 1</h2>
+
+            <div className="form-group">
+              <label>Nome Completo</label>
+              <input
+                type="text"
+                value={name1}
+                onChange={(e) => setName1(e.target.value)}
+                placeholder="Ex: João da Silva"
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Função / Cargo</label>
+              <input
+                type="text"
+                value={role1}
+                onChange={(e) => setRole1(e.target.value)}
+                placeholder="Ex: Eletricista"
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Telefone</label>
+              <input
+                type="tel"
+                value={phone1}
+                onChange={(e) => setPhone1(e.target.value)}
+                placeholder="(00) 00000-0000"
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Foto do Funcionário</label>
+              <div className="file-input-wrapper" style={{ padding: '1rem' }}>
+                <input type="file" accept="image/*" onChange={handlePhotoUpload1} />
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
+                  <Upload size={24} color="#6b7280" />
+                  <span className="file-input-text">Foto (Opcional)</span>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div className="form-group">
-            <label>Função / Cargo</label>
-            <input
-              type="text"
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-              placeholder="Ex: Eletricista"
-            />
-          </div>
+          {/* BADGE 2 FORM */}
+          <div style={{ padding: '15px', backgroundColor: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: '8px', marginBottom: '20px' }}>
+            <h2 style={{ marginTop: 0, marginBottom: '15px', fontSize: '1.25rem' }}>Crachá 2</h2>
 
-          <div className="form-group">
-            <label>Telefone</label>
-            <input
-              type="tel"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              placeholder="(00) 00000-0000"
-            />
-          </div>
+            <div className="form-group">
+              <label>Nome Completo</label>
+              <input
+                type="text"
+                value={name2}
+                onChange={(e) => setName2(e.target.value)}
+                placeholder="Deixe em branco para espelhar o Crachá 1"
+              />
+            </div>
 
-          <div className="form-group">
-            <label>Foto do Funcionário</label>
-            <div className="file-input-wrapper">
-              <input type="file" accept="image/*" onChange={handlePhotoUpload} />
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
-                <Upload size={32} color="#6b7280" />
-                <span className="file-input-text">
-                  Clique ou arraste a foto aqui<br />
-                  <small style={{ fontWeight: 'normal' }}>Recomendado 3x4 (com proporção retrato)</small>
-                </span>
+            <div className="form-group">
+              <label>Função / Cargo</label>
+              <input
+                type="text"
+                value={role2}
+                onChange={(e) => setRole2(e.target.value)}
+                placeholder="Ex: Eletricista"
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Telefone</label>
+              <input
+                type="tel"
+                value={phone2}
+                onChange={(e) => setPhone2(e.target.value)}
+                placeholder="(00) 00000-0000"
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Foto do Funcionário</label>
+              <div className="file-input-wrapper" style={{ padding: '1rem' }}>
+                <input type="file" accept="image/*" onChange={handlePhotoUpload2} />
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
+                  <Upload size={24} color="#6b7280" />
+                  <span className="file-input-text">Foto (Opcional)</span>
+                </div>
               </div>
             </div>
           </div>
@@ -180,32 +244,32 @@ function App() {
             <div className="print-page-container" ref={badgeRef}>
               <div className="badges-grid">
 
-                {/* 1. TOP LEFT: FRONT BADGE */}
+                {/* 1. TOP LEFT: FRONT BADGE 1 */}
                 <div className="grid-cell">
                   <BadgeFront
-                    name={name}
-                    role={role}
-                    phone={phone}
-                    photoUrl={photoUrl}
+                    name={name1}
+                    role={role1}
+                    phone={phone1}
+                    photoUrl={photoUrl1}
                   />
                 </div>
 
-                {/* 2. TOP RIGHT: BACK BADGE */}
+                {/* 2. TOP RIGHT: BACK BADGE 1 */}
                 <div className="grid-cell">
                   <BadgeBack logoUrl={logoUrl} />
                 </div>
 
-                {/* 3. BOTTOM LEFT: FRONT BADGE */}
+                {/* 3. BOTTOM LEFT: FRONT BADGE 2 */}
                 <div className="grid-cell">
                   <BadgeFront
-                    name={name}
-                    role={role}
-                    phone={phone}
-                    photoUrl={photoUrl}
+                    name={name2 || name1}
+                    role={role2 || role1}
+                    phone={phone2 || phone1}
+                    photoUrl={photoUrl2 || photoUrl1}
                   />
                 </div>
 
-                {/* 4. BOTTOM RIGHT: BACK BADGE */}
+                {/* 4. BOTTOM RIGHT: BACK BADGE 2 */}
                 <div className="grid-cell">
                   <BadgeBack logoUrl={logoUrl} />
                 </div>
